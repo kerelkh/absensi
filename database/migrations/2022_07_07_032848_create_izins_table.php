@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('izins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('nip')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('nip');
+            $table->date('date');
+            $table->text('alasan_izin');
+            $table->string('dokumen_izin');
+            $table->string('pangkat');
+            $table->string('jabatan');
+            $table->foreignId('opd_id')->nullable()->references('id')->on('opds')->onDelete(NULL);
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('izins');
     }
 };
