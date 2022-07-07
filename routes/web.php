@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DinasController;
+use App\Http\Controllers\KepegawaianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +18,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['guest'])->group(function() {
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::middleware(['auth'])->group(function() {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['auth', "check.role:5"])->group(function() {
+    Route::get('/', [UserController::class, 'index']);
+});
+
+Route::middleware(['auth', "check.role:2"])->group(function() {
+    Route::get('/admin/kepegawaian', [KepegawaianController::class, 'index']);
+});
+
+Route::middleware(['auth', "check.role:3"])->group(function() {
+    Route::get('/admin/dinas', [DinasController::class, 'index']);
+});
+
+Route::fallback(function() {
+    return redirect('/');
 });
