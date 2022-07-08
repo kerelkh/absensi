@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
             'nip' => '111111111111111116',
             'email' => 'user@absensi.com',
             'password' => Hash::make('user'),
-            'role_id' => 5,
+            'role_id' => 6,
         ]);
 
         User::create([
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             'nip' => '111111111111111117',
             'email' => 'user2@absensi.com',
             'password' => Hash::make('user'),
-            'role_id' => 5,
+            'role_id' => 6,
         ]);
 
 

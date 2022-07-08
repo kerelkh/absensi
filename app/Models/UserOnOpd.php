@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class UserOnOpd extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function opd() {
+        return $this->belongsTo(Opd::class);
+    }
 }

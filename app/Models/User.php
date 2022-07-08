@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
+
+    public function useronopd(){
+        return $this->hasOne(UserOnOpd::class);
+    }
 }

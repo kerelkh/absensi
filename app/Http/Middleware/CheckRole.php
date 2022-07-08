@@ -26,7 +26,7 @@ class CheckRole
                 return redirect('/admin/dinas');
             }
 
-            if(Auth::user()->role->id == 5){
+            if(Auth::user()->role->id == 6){
                 return redirect('/')->with('success', 'Selamat Datang.');
             }
         }
