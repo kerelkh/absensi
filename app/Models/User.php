@@ -49,4 +49,8 @@ class User extends Authenticatable
     public function useronopd(){
         return $this->hasOne(UserOnOpd::class);
     }
+
+    public function userDetail(){
+        return $this->hasOne(UserDetail::class);
+    }
 }

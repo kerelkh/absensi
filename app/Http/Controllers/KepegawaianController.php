@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Opd;
 use App\Models\UserOnOpd;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class KepegawaianController extends Controller
@@ -68,13 +70,13 @@ class KepegawaianController extends Controller
         if($getUserOnOpd){
             if($getUserOnOpd->opd_id == $request->opd){
                 return back()->with('error', 'Gagal update, tidak ada perubahan');
-            }   
+            }
         }else{
             if($getUserOnOpd == $request->opd){
                 return back()->with('error', 'Gagal update, tidak ada perubahan');
             }
         }
-        
+
         //if not same then create if not have opd or update if opd
         if($getUserOnOpd){
             //update
@@ -89,7 +91,7 @@ class KepegawaianController extends Controller
            }else{
                 $getUserOnOpd->opd_id = $request->opd;
                 $result = $getUserOnOpd->update();
-                
+
                 if($result) {
                     return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update OPD Berhasil');
                 }
@@ -110,6 +112,58 @@ class KepegawaianController extends Controller
         }
 
         return back()->with('error', 'Gagal Update OPD');
+
+    }
+
+    public function updatePassword(Request $request, String $email) {
+
+        $validate = $request->validate([
+            'password' => ['required', 'min:3', 'max:25', 'confirmed'],
+            'password_confirmation' => ['required']
+        ]);
+
+        $user = User::where('email', $email)->first();
+
+        $user->password = Hash::make($request->password);
+
+        $result = $user->update();
+
+        if($result) {
+            return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update Password Berhasil.');
+        }
+
+        return back()->with('error', 'Gagal Update Password');
+    }
+
+    public function updateDetail(Request $request, String $email) {
+
+        $user = User::where('email', $email)->first();
+
+        $userDetail = UserDetail::where('user_id', $user->id)->first();
+        $validate = $request->validate([
+            'nik' => ['required', 'size:16', 'unique:user_details,nik,' . $userDetail->id],
+            'pangkat' => ['required', 'min:2', 'max:50'],
+            'jabatan' => ['required', 'min:2', 'max:50']
+        ]);
+
+        //checksame
+        if($userDetail->nik == $request->nik &&
+            $userDetail->pangkat == $request->pangkat &&
+            $userDetail->jabatan == $request->jabatan){
+                return back()->with('error', 'Gagal Update Detail, Tidak ada perubahan');
+            }
+
+        $result = $userDetail->update([
+            'nik' => $validate['nik'],
+            'pangkat' => $validate['pangkat'],
+            'jabatan' => $validate['jabatan'],
+        ]);
+
+        if($result) {
+            return redirect('/admin/kepegawaian/'. $user->email .'/edit')->with('success', 'Update Detail Success');
+        }
+
+        return back()->with('error', 'Gagal Update Detail.');
 
     }
 }

@@ -55,7 +55,7 @@
         <div class="flex h-full">
             <x-sidebar></x-sidebar>
             <div class="w-full h-full overflow-y-auto">
-                <div class="h-[1800px] bg-gray-50 overflow-y-auto w-full p-10">
+                <div class="min-h-screen bg-gray-50 overflow-y-auto w-full p-10 mb-10">
                     @yield('content')
                 </div>
             </div>

@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth', "check.role:5"])->group(function() {
+Route::middleware(['auth', "check.role:6"])->group(function() {
     Route::get('/', [UserController::class, 'index']);
 });
 
@@ -37,6 +37,8 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::get('/admin/kepegawaian/{email}/edit', [KepegawaianController::class, 'showEdit']);
     Route::put('/admin/kepegawaian/{email}/edit', [KepegawaianController::class, 'storeEdit']);
     Route::put('/admin/kepegawaian/{email}/edit/opd', [KepegawaianController::class, 'updateOpd']);
+    Route::put('/admin/kepegawaian/{email}/edit/password', [KepegawaianController::class, 'updatePassword']);
+    Route::put('/admin/kepegawaian/{email}/edit/detail', [KepegawaianController::class, 'updateDetail']);
 });
 
 Route::middleware(['auth', "check.role:3"])->group(function() {

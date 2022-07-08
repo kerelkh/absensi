@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
+            $table->string('nik')->unique();
             $table->string('pangkat');
             $table->string('jabatan');
             $table->integer('active_status');

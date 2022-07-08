@@ -103,6 +103,14 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'staff',
         ]);
 
+        UserDetail::create([
+            'nik' => '1704082112970004',
+            'active_status' => 0,
+            'user_id' => 4,
+            'pangkat' => 'IIIA',
+            'jabatan' => 'staff',
+        ]);
+
         //USER ON OPD
         UserOnOpd::create([
             'valid' => 1,
