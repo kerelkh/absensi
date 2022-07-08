@@ -42,6 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeFilter($query, array $filters) {
+        $query->when($filters['search'], function($query, $search){
+            $query->where('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('nip', 'LIKE', '%' . $search . '%');
+        });
+    }
+
     public function role() {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
@@ -53,4 +61,5 @@ class User extends Authenticatable
     public function userDetail(){
         return $this->hasOne(UserDetail::class);
     }
+
 }

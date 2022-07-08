@@ -19,7 +19,7 @@ class KepegawaianController extends Controller
 
     public function users(Request $request) {
         return view('adminkepegawaian.users', [
-            'users' => User::where('role_id', 6)->paginate(5),
+            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->paginate(5),
         ]);
     }
 
