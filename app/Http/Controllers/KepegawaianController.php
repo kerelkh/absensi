@@ -208,4 +208,11 @@ class KepegawaianController extends Controller
         return back()->with('error', 'Gagal Update Detail.');
 
     }
+
+    public function admins(Request $request) {
+
+        return view('adminkepegawaian.admins', [
+            'admins' => User::where('role_id', 3)->filter(['search' => $request->query('search')])->orderBy('created_at', 'desc')->paginate(5)
+        ]);
+    }
 }

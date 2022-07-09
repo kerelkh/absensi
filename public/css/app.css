@@ -1249,11 +1249,11 @@ input:checked + .toggle-bg {
 .rounded-lg {
   border-radius: 0.5rem;
 }
-.rounded {
-  border-radius: 0.25rem;
-}
 .rounded-full {
   border-radius: 9999px;
+}
+.rounded {
+  border-radius: 0.25rem;
 }
 .rounded-md {
   border-radius: 0.375rem;
@@ -1371,12 +1371,6 @@ input:checked + .toggle-bg {
 }
 .to-blue-500 {
   --tw-gradient-to: #3F83F8;
-}
-.to-blue-100 {
-  --tw-gradient-to: #E1EFFE;
-}
-.to-blue-400 {
-  --tw-gradient-to: #76A9FA;
 }
 .bg-cover {
   background-size: cover;

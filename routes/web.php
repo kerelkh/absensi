@@ -33,6 +33,8 @@ Route::middleware(['auth', "check.role:6"])->group(function() {
 
 Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::get('/admin/kepegawaian', [KepegawaianController::class, 'index']);
+
+    //users
     Route::get('/admin/kepegawaian/users', [KepegawaianController::class, 'users']);
     Route::get('/admin/kepegawaian/adduser', [KepegawaianController::class, 'formUser']);
     Route::post('/admin/kepegawaian/adduser', [KepegawaianController::class, 'storeUser']);
@@ -41,6 +43,9 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::put('/admin/kepegawaian/{email}/edit/opd', [KepegawaianController::class, 'updateOpd']);
     Route::put('/admin/kepegawaian/{email}/edit/password', [KepegawaianController::class, 'updatePassword']);
     Route::put('/admin/kepegawaian/{email}/edit/detail', [KepegawaianController::class, 'updateDetail']);
+
+    //admin dinas
+    Route::get('/admin/kepegawaian/admins', [KepegawaianController::class, 'admins']);
 });
 
 Route::middleware(['auth', "check.role:3"])->group(function() {
