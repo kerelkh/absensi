@@ -34,6 +34,8 @@ Route::middleware(['auth', "check.role:6"])->group(function() {
 Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::get('/admin/kepegawaian', [KepegawaianController::class, 'index']);
     Route::get('/admin/kepegawaian/users', [KepegawaianController::class, 'users']);
+    Route::get('/admin/kepegawaian/adduser', [KepegawaianController::class, 'formUser']);
+    Route::post('/admin/kepegawaian/adduser', [KepegawaianController::class, 'storeUser']);
     Route::get('/admin/kepegawaian/{email}/edit', [KepegawaianController::class, 'showEdit']);
     Route::put('/admin/kepegawaian/{email}/edit', [KepegawaianController::class, 'storeEdit']);
     Route::put('/admin/kepegawaian/{email}/edit/opd', [KepegawaianController::class, 'updateOpd']);

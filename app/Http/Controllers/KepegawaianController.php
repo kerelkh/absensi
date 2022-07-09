@@ -23,6 +23,45 @@ class KepegawaianController extends Controller
         ]);
     }
 
+    public function formUser(Request $request) {
+        return view('adminkepegawaian.add', [
+            'opds' => Opd::all(),
+        ]);
+    }
+
+    public function storeUser(Request $request) {
+        $validate = $request->validate([
+            'name' => ['required', 'min:3', 'max:50'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+            'nip' => ['required', 'size:18', 'unique:users,nip'],
+            'password' => ['required', 'min:3', 'max:25'],
+            'nik' => ['required', 'size:16', 'unique:user_details,nik'],
+            'pangkat' => ['required', 'min:3', 'max:50'],
+            'jabatan' => ['required', 'min:3', 'max:50']
+        ]);
+        $user = User::create([
+            'name' => $validate['name'],
+            'email' => $validate['email'],
+            'nip' => $validate['nip'],
+            'password' => Hash::make($validate['password']),
+            'role_id' => 6,
+        ]);
+
+        $result = UserDetail::create([
+            'nik' => $validate['nik'],
+            'pangkat' => $validate['pangkat'],
+            'jabatan' => $validate['jabatan'],
+            'active_status' => 0,
+            'user_id' => $user->id,
+        ]);
+
+        if($result) {
+            return redirect('/admin/kepegawaian/adduser')->with('success', 'User berhasil ditambah');
+        }
+
+        return back()->with('error', 'Gagal menambah user.');
+    }
+
     public function showEdit(Request $request, String $email) {
         return view('adminkepegawaian.edit', [
             'user' => User::where('email', $email)->first(),
