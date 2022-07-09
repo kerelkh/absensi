@@ -35,6 +35,9 @@
                             OPD
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
                         </th>
                     </tr>
@@ -53,6 +56,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{ $user->useronopd->opd->opd_name ?? 'Tidak ada OPD' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $user->userDetail->active_status == 0 ? 'Tidak Aktif' : 'Aktif' }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="/admin/kepegawaian/{{ $user->email }}/edit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

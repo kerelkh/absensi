@@ -19,7 +19,7 @@ class KepegawaianController extends Controller
 
     public function users(Request $request) {
         return view('adminkepegawaian.users', [
-            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->paginate(5),
+            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->orderBy('created_at', 'desc')->paginate(5),
         ]);
     }
 
@@ -182,13 +182,15 @@ class KepegawaianController extends Controller
         $validate = $request->validate([
             'nik' => ['required', 'size:16', 'unique:user_details,nik,' . $userDetail->id],
             'pangkat' => ['required', 'min:2', 'max:50'],
-            'jabatan' => ['required', 'min:2', 'max:50']
+            'jabatan' => ['required', 'min:2', 'max:50'],
+            'status' => ['required', 'numeric'],
         ]);
 
         //checksame
         if($userDetail->nik == $request->nik &&
             $userDetail->pangkat == $request->pangkat &&
-            $userDetail->jabatan == $request->jabatan){
+            $userDetail->jabatan == $request->jabatan &&
+            $userDetail->active_status == $request->status){
                 return back()->with('error', 'Gagal Update Detail, Tidak ada perubahan');
             }
 
@@ -196,6 +198,7 @@ class KepegawaianController extends Controller
             'nik' => $validate['nik'],
             'pangkat' => $validate['pangkat'],
             'jabatan' => $validate['jabatan'],
+            'active_status' => $validate['status']
         ]);
 
         if($result) {

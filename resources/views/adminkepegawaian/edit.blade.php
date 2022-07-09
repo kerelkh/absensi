@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="p-5 bg-white rounded-lg shadow">
-        
+
     <nav class="flex mb-5 pb-2 border-b border-gray-400" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
@@ -18,7 +18,7 @@
             </div>
         </li>
     </nav>
-  
+
     <div class="mb-10">
         <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Informasi User</h1>
         <form method="POST" onsubmit="confirmUpdateinformation(event)">
@@ -100,6 +100,13 @@
                 @error('jabatan')
                     <span class="text-red-600 text-xs">{{ $message }}</span>
                 @enderror
+            </div>
+            <div class="relative z-0 w-full mb-6 group">
+                <label for="status" class="sr-only">Underline select</label>
+                <select id="status" name="status" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                        <option value="0" @if($user->userDetail->active_status == 0)selected @endif>Tidak Aktif</option>
+                        <option value="1" @if($user->userDetail->active_status == 1)selected @endif>Aktif</option>
+                </select>
             </div>
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Detail User</button>
         </form>
