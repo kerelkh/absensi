@@ -10,7 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class DinasController extends Controller
 {
     public function index(Request $request) {
-        return view('admindinas.index');
+        if(Auth::user()->useronopd ?? false){
+        $validateUsers = User::where('role_id', 6)->filterOpd(['id'=> Auth::user()->useronopd->opd_id])->filterValid(['valid'=> 'valid'])->count();
+        $nonValidateUsers = User::where('role_id', 6)->filterOpd(['id'=> Auth::user()->useronopd->opd_id])->filterValid(['valid'=> 'not-valid'])->count();
+        }
+
+
+        return view('admindinas.index', [
+            'validateUsers' => $validateUsers ?? NULL,
+            'nonValidateUsers' => $nonValidateUsers ?? NULL,
+        ]);
     }
 
     public function users(Request $request) {

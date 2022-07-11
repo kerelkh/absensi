@@ -60,6 +60,18 @@ class User extends Authenticatable
         });
     }
 
+    public function scopeFilterValid($query, array $filters) {
+        $query->when($filters['valid'], function($query, $valid) {
+            $query->whereHas('useronopd', function($query) use ($valid) {
+                if($valid == 'valid'){
+                    $query->where('valid', 1);
+                }else{
+                    $query->where('valid', 0);
+                }
+            });
+        });
+    }
+
 
     public function role() {
         return $this->belongsTo(Role::class, 'role_id', 'id');
