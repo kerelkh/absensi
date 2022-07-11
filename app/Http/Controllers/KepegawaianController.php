@@ -168,6 +168,9 @@ class KepegawaianController extends Controller
         $result = $user->update();
 
         if($result) {
+            if($user->role_id == 3) {
+                return redirect('/admin/kepegawaian/admins/' . $email . '/edit')->with('success', 'Update Password Berhasil.');
+            }
             return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update Password Berhasil.');
         }
 
@@ -215,4 +218,112 @@ class KepegawaianController extends Controller
             'admins' => User::where('role_id', 3)->filter(['search' => $request->query('search')])->orderBy('created_at', 'desc')->paginate(5)
         ]);
     }
+
+    public function formAdmin(Request $request) {
+        return view('adminkepegawaian.addAdmin', [
+            'opds' => Opd::all(),
+        ]);
+    }
+
+    public function storeNewAdmin(Request $request) {
+        $validate = $request->validate([
+            'name' => ['required', 'min:3' ,'max:50'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+            'nip' => ['required', 'size:18', 'unique:users,nip'],
+            'password' => ['required', 'min:3', 'max:25'],
+        ]);
+
+        $user = User::create([
+            'name' => $validate['name'],
+            'email' => $validate['email'],
+            'nip' => $validate['nip'],
+            'password' => Hash::make($validate['password']),
+            'role_id' => 3
+        ]);
+
+        if($user){
+            //check opd
+            if($request->opd ?? false) {
+                UserOnOpd::create([
+                    'user_id' => $user->id,
+                    'opd_id' => $request->opd,
+                ]);
+            }
+
+            return redirect('/admin/kepegawaian/admins')->with('success', 'Berhasil manambah Admin Dinas');
+        }
+
+        return back()->with('error', 'Gagal Menambag Admin Dinas.');
+    }
+
+    public function showEditAdmin(Request $request, String $email) {
+
+        $admin = User::where('email' ,$email)->first();
+
+        return view('adminkepegawaian.editAdmin', [
+            'admin' => $admin,
+            'opds' => Opd::all(),
+        ]);
+    }
+
+    public function storeUpdateAdmin(Request $request, String $email) {
+        $admin = User::where('email' , $email)->first();
+        $getUserOnOpd = UserOnOpd::where('user_id', $admin->id)->first();
+
+        $validate = $request->validate([
+            'name' => ['required', 'min:3', 'max:50'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email,' . $admin->id],
+            'nip' => ['required', 'size:18'],
+        ]);
+
+        //check same
+        if($admin->name == $validate['name'] &&
+            $admin->email == $validate['email'] &&
+            $admin->nip == $validate['nip']) {
+                if($getUserOnOpd ?? false){
+                    if($getUserOnOpd->opd_id == $request->opd){
+                        return back()->with('error', 'Gagal update, tidak ada perubahan data.');
+                    }
+                }else{
+                    if($request->opd == NULL){
+                        return back()->with('error', 'Gagal update, tidak ada perubahan data.');
+                    }
+                }
+            }
+
+        $admin->name = $validate['name'];
+        $admin->email = $validate['email'];
+        $admin->nip = $validate['nip'];
+
+        if($getUserOnOpd ?? false){
+            if($request->opd ?? false){
+                //update useronopd
+                $getUserOnOpd->update([
+                    'opd_id' => $request->opd,
+                ]);
+
+            }else{
+                //delete useronopd
+                $getUserOnOpd->delete();
+            }
+        }else{
+            if($request->opd ?? false) {
+                UserOnOpd::create([
+                    'valid' => 1,
+                    'is_super' => 1,
+                    'user_id' => $admin->id,
+                    'opd_id' => $request->opd
+                ]);
+            }
+        }
+
+        $result = $admin->update();
+
+        if($result) {
+            return redirect('/admin/kepegawaian/admins/'. $admin->email. '/edit')->with('success', 'Berhasil Update Admin Dinas.');
+        }
+
+        return back()->with('error', 'Gagal update Admin Dinas.');
+    }
+
 }

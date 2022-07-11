@@ -3,7 +3,7 @@
 @section('content')
     <div class="p-5 bg-white rounded-lg shadow">
         <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-10">Admins</h1>
-        <a href="/admin/kepegawaian/adduser" class="inline-block text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"><i class="fa-solid fa-address-card"></i> Tambah Admin Dinas</a>
+        <a href="/admin/kepegawaian/addadmin" class="inline-block text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"><i class="fa-solid fa-address-card"></i> Tambah Admin Dinas</a>
 
         <div class="mb-2 w-fit">
             <form class="flex items-center">
@@ -55,7 +55,7 @@
                                 {{ $admin->useronopd->opd->opd_name ?? 'Tidak ada OPD' }}
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="/admin/kepegawaian/{{ $admin->email }}/edit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="/admin/kepegawaian/admins/{{ $admin->email }}/edit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             </td>
                         </tr>
                     @empty

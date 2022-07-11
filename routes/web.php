@@ -46,6 +46,11 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
 
     //admin dinas
     Route::get('/admin/kepegawaian/admins', [KepegawaianController::class, 'admins']);
+    Route::get('/admin/kepegawaian/addadmin', [KepegawaianController::class, 'formAdmin']);
+    Route::post('/admin/kepegawaian/addadmin', [KepegawaianController::class, 'storeNewAdmin']);
+    Route::get('/admin/kepegawaian/admins/{email}/edit', [KepegawaianController::class, 'showEditAdmin']);
+    Route::put('/admin/kepegawaian/admins/{email}/edit', [KepegawaianController::class, 'storeUpdateAdmin']);
+    Route::put("/admin/kepegawaian/admins/{email}/edit/password", [KepegawaianController::class, 'updatePassword']);
 });
 
 Route::middleware(['auth', "check.role:3"])->group(function() {
