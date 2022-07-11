@@ -51,7 +51,6 @@ class KepegawaianController extends Controller
             'nik' => $validate['nik'],
             'pangkat' => $validate['pangkat'],
             'jabatan' => $validate['jabatan'],
-            'active_status' => 0,
             'user_id' => $user->id,
         ]);
 
@@ -186,14 +185,12 @@ class KepegawaianController extends Controller
             'nik' => ['required', 'size:16', 'unique:user_details,nik,' . $userDetail->id],
             'pangkat' => ['required', 'min:2', 'max:50'],
             'jabatan' => ['required', 'min:2', 'max:50'],
-            'status' => ['required', 'numeric'],
         ]);
 
         //checksame
         if($userDetail->nik == $request->nik &&
             $userDetail->pangkat == $request->pangkat &&
-            $userDetail->jabatan == $request->jabatan &&
-            $userDetail->active_status == $request->status){
+            $userDetail->jabatan == $request->jabatan){
                 return back()->with('error', 'Gagal Update Detail, Tidak ada perubahan');
             }
 
@@ -201,7 +198,6 @@ class KepegawaianController extends Controller
             'nik' => $validate['nik'],
             'pangkat' => $validate['pangkat'],
             'jabatan' => $validate['jabatan'],
-            'active_status' => $validate['status']
         ]);
 
         if($result) {
@@ -245,6 +241,7 @@ class KepegawaianController extends Controller
             //check opd
             if($request->opd ?? false) {
                 UserOnOpd::create([
+                    'is_super' => 1,
                     'user_id' => $user->id,
                     'opd_id' => $request->opd,
                 ]);

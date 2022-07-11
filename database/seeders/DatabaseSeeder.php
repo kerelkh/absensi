@@ -97,7 +97,6 @@ class DatabaseSeeder extends Seeder
         //USER DETAIL
         UserDetail::create([
             'nik' => '1704082112970003',
-            'active_status' => 0,
             'user_id' => 3,
             'pangkat' => 'IIIA',
             'jabatan' => 'staff',
@@ -105,7 +104,6 @@ class DatabaseSeeder extends Seeder
 
         UserDetail::create([
             'nik' => '1704082112970004',
-            'active_status' => 0,
             'user_id' => 4,
             'pangkat' => 'IIIA',
             'jabatan' => 'staff',
@@ -113,9 +111,15 @@ class DatabaseSeeder extends Seeder
 
         //USER ON OPD
         UserOnOpd::create([
-            'valid' => 1,
+            'valid' => 0,
             'is_super' => 0,
             'user_id' => 3,
+            'opd_id' => 1
+        ]);
+        UserOnOpd::create([
+            'valid' => 0,
+            'is_super' => 1,
+            'user_id' => 2,
             'opd_id' => 1
         ]);
 

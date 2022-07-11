@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nik')->unique();
             $table->string('pangkat');
             $table->string('jabatan');
-            $table->integer('active_status');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

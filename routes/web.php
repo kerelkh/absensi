@@ -55,6 +55,9 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
 
 Route::middleware(['auth', "check.role:3"])->group(function() {
     Route::get('/admin/dinas', [DinasController::class, 'index']);
+    Route::get('/admin/dinas/users', [DinasController::class, 'users']);
+    Route::get('/admin/dinas/{email}/edit', [DinasController::class, 'showUser']);
+    Route::put('/admin/dinas/{email}/edit', [DinasController::class, 'updateValidation']);
 });
 
 Route::fallback(function() {
