@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+
 
 class UserController extends Controller
 {
@@ -107,12 +109,15 @@ class UserController extends Controller
     }
 
     public function storeAvatar($id, $file) {
-        $filename = 'user' . $id . now()->format("YMdHis") . "avatar." . $file->extension();
-        $path = $file->storeAs('public/avatars', $filename);
-        $filepath = '';
-        if($path){
-            $filepath = "avatars/" . $filename;
+        $img = Image::make($file)->resize(null, 300, function($constraint) {
+            $constraint->aspectRatio();
+        });
+        $filename = 'user' . $id . now()->format("YMdHis") . "file." . $file->extension();
+        $img->save(storage_path('app/public/avatars/'.$filename));
 
+        $filepath = '';
+        if($img){
+            $filepath = "avatars/" . $filename;
             return $filepath;
         }
 

@@ -7,6 +7,7 @@ use App\Models\Absen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class AbsenController extends Controller
 {
@@ -177,12 +178,15 @@ class AbsenController extends Controller
     }
 
     public function storeFile($request, $file) {
+        $img = Image::make($file)->resize(null, 300, function($constraint) {
+            $constraint->aspectRatio();
+        });
         $filename = 'user' . $request->user()->id . now()->format("YMdHis") . "file." . $file->extension();
-        $path = $file->storeAs('public/files', $filename);
-        $filepath = '';
-        if($path){
-            $filepath = "files/" . $filename;
+        $img->save(storage_path('app/public/files/'.$filename));
 
+        $filepath = '';
+        if($img){
+            $filepath = "files/" . $filename;
             return $filepath;
         }
 

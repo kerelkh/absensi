@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'opd_address' => 'Jln. Lintas Kepahiang - Bengkulu',
             'opd_longitude' => '102.562136',
             'opd_latitude' => '-3.6632719',
-            'distance' => 100
+            'distance' => 1000
         ]);
 
         Opd::create([
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             'opd_address' => 'Jln. Pasar kepahiang',
             'opd_longitude' => '102.574515',
             'opd_latitude' => '-3.6441869',
-            'distance' => 100
+            'distance' => 1000
         ]);
 
         //DEFAULT USER
