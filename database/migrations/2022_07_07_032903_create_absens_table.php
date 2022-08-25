@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('absens', function (Blueprint $table) {
             $table->id();
+            $table->boolean('valid')->default(0);
             $table->string('nip');
-            $table->datetime('absen_masuk')->nullable();
-            $table->datetime('absen_pulang')->nullable();
+            $table->datetime('absen_time')->nullable();
+            $table->boolean('absen_jenis')->default(0);
             $table->string('absen_longitude');
             $table->string('absen_latitude');
             $table->string('pangkat');

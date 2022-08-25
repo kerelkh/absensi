@@ -45,7 +45,17 @@ class KepegawaianController extends Controller
             'nip' => $validate['nip'],
             'password' => Hash::make($validate['password']),
             'role_id' => 6,
+            'avatar' => '',
         ]);
+
+        //avatar
+        $avatarFile = '';
+        if($request->hasFile('avatar')){
+            $avatarFile = $this->storeAvatar($user->id, $request->file('avatar'));
+            $user->avatar = $avatarFile;
+            $user->save();
+        }
+
 
         $result = UserDetail::create([
             'nik' => $validate['nik'],
@@ -321,6 +331,20 @@ class KepegawaianController extends Controller
         }
 
         return back()->with('error', 'Gagal update Admin Dinas.');
+    }
+
+
+    public function storeAvatar($id, $file) {
+        $filename = 'user' . $id . now()->format("YMdHis") . "avatar." . $file->extension();
+        $path = $file->storeAs('public/avatars', $filename);
+        $filepath = '';
+        if($path){
+            $filepath = "avatars/" . $filename;
+
+            return $filepath;
+        }
+
+        return 0;
     }
 
 }

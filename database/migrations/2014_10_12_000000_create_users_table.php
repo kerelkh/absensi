@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nip')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->text('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

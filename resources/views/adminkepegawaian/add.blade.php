@@ -20,8 +20,12 @@
     </nav>
 
     <div class="max-w-xl">
-        <form method="POST" onsubmit="confirmCreate(event)">
+        <form method="POST" onsubmit="confirmCreate(event)" enctype="multipart/form-data">
             @csrf
+            <div class="mb-5">
+                <label class="block mb-2 text-sm font-medium text-white-900" for="file_input">Upload file</label>
+                <input name="avatar" id="avatar" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none " id="file_input" type="file">
+            </div>
             <div class="relative z-0 w-full mb-6 group">
                 <input type="text" name="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="" value="{{ old('name') }}">
                 <label for="name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nama</label>

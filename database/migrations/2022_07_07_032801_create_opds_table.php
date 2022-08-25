@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('opd_address');
             $table->string('opd_longitude');
             $table->string('opd_latitude');
+            $table->bigInteger('distance');
             $table->timestamps();
         });
     }
