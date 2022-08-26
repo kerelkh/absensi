@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('opds', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
             $table->string('opd_name');
             $table->string('opd_address');
             $table->string('opd_longitude');

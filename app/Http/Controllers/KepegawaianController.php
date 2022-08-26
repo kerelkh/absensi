@@ -19,7 +19,7 @@ class KepegawaianController extends Controller
 
     public function users(Request $request) {
         return view('adminkepegawaian.users', [
-            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->orderBy('created_at', 'desc')->paginate(5),
+            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->orderBy('created_at', 'desc')->paginate(9),
         ]);
     }
 
@@ -32,7 +32,7 @@ class KepegawaianController extends Controller
     public function storeUser(Request $request) {
         $validate = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+            'email' => ['required', 'unique:users,email'],
             'nip' => ['required', 'size:18', 'unique:users,nip'],
             'password' => ['required', 'min:3', 'max:25'],
             'nik' => ['required', 'size:16', 'unique:user_details,nik'],
@@ -72,8 +72,12 @@ class KepegawaianController extends Controller
     }
 
     public function showEdit(Request $request, String $email) {
+        $user = User::where('email', $email)->where('role_id', 6)->first();
+        if(!$user) {
+            return redirect('/admin/kepegawaian/users')->with('error', 'data tidak ditemukan');
+        }
         return view('adminkepegawaian.edit', [
-            'user' => User::where('email', $email)->first(),
+            'user' => $user,
             'opds' => Opd::all()
         ]);
     }

@@ -10,6 +10,7 @@ use App\Models\UserOnOpd;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
 
         //OPD SEED
         Opd::create([
+            'slug' => Str::slug('rsud kepahiang', '-'),
             'opd_name' => 'rsud kepahiang',
             'opd_address' => 'Jln. Lintas Kepahiang - Bengkulu',
             'opd_longitude' => '102.562136',
@@ -55,6 +57,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Opd::create([
+            'slug' => Str::slug('rsud kepahiang lama', '-'),
             'opd_name' => 'rsud kepahiang lama',
             'opd_address' => 'Jln. Pasar kepahiang',
             'opd_longitude' => '102.574515',
@@ -63,6 +66,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //DEFAULT USER
+        User::create([
+            'name' => 'super admin',
+            'nip' => '000000000000000000',
+            'email' => 'admin@absensi.com',
+            'password' => Hash::make('superadmin'),
+            'role_id' => 1,
+        ]);
+
         User::create([
             'name' => 'admin kepegawaian',
             'nip' => '111111111111111111',

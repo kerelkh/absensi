@@ -18,6 +18,9 @@ class CheckRole
     public function handle(Request $request, Closure $next, ...$filters)
     {
         if(!in_array(Auth::user()->role->id, $filters)){
+            if(Auth::user()->role->id == 1) {
+                return redirect('/opd');
+            }
             if(Auth::user()->role->id == 2){
                 return redirect('/admin/kepegawaian');
             }

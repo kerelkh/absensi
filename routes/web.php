@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DinasController;
 use App\Http\Controllers\KepegawaianController;
+use App\Http\Controllers\SuperController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,15 @@ Route::middleware(['auth'])->group(function() {
 
 Route::middleware(['auth', "check.role:6"])->group(function() {
     Route::get('/', [UserController::class, 'index']);
+});
+
+Route::middleware(['auth', "check.role:1"])->group(function() {
+    Route::get('/opd', [AdminController::class, 'index']);
+    Route::get('/opd/addopd', [AdminController::class, 'newOpd']);
+    Route::post('/opd/addopd', [AdminController::class, 'storeOpd']);
+    Route::get('/opd/{slug}/edit', [AdminController::class, 'edit']);
+    Route::put('/opd/{slug}/edit', [AdminController::class, 'storeEdit']);
+    Route::delete('/opd/{slug}/edit', [AdminController::class, 'destroyOpd']);
 });
 
 Route::middleware(['auth', "check.role:2"])->group(function() {

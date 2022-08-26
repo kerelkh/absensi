@@ -109,9 +109,7 @@ class UserController extends Controller
     }
 
     public function storeAvatar($id, $file) {
-        $img = Image::make($file)->resize(null, 300, function($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img = Image::make($file)->resize(300, 300);
         $filename = 'user' . $id . now()->format("YMdHis") . "file." . $file->extension();
         $img->save(storage_path('app/public/avatars/'.$filename));
 
