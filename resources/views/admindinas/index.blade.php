@@ -19,8 +19,8 @@
     <script>
         const data = {
             labels: [
-                'Tervalidasi ' + {{ $validateUsers }},
-                'Blue ' + {{ $nonValidateUsers }},
+                'Valid ' + {{ $validateUsers }},
+                'Not valid ' + {{ $nonValidateUsers }},
             ],
             datasets: [{
                 label: 'Tervalidasi/Belum Tervalidasi',

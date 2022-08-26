@@ -65,31 +65,6 @@
                 </form>
             </div>
 
-            {{-- <div class="my-10">
-                <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">OPD User</h1>
-                <form action="{{ URL::current() }}/opd" method="POST" onsubmit="confirmUpdateOPD(event)">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label for="opd" class="sr-only">Underline select</label>
-                        <select id="opd" name="opd" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                            <option value="" selected>Tidak ada OPD</option>
-                            @foreach($opds as $opd)
-                                <option
-                                    value="{{ $opd->id }}"
-                                    @if($user->useronopd ?? false)
-                                        @if($user->useronopd->opd->id == $opd->id)
-                                        selected
-                                        @endif
-                                    @endif
-                                >{{ $opd->opd_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update OPD</button>
-                </form>
-            </div> --}}
-
             <div class="my-10">
                 <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Detail user</h1>
                 <form action="{{ URL::current() }}/detail" method="POST" onsubmit="confirmUpdateDetail(event)">
@@ -118,6 +93,34 @@
                     </div>
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Detail User</button>
                 </form>
+            </div>
+
+            <div class="my-10">
+                <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Validasi User</h1>
+
+                <form action="{{ URL::current() }}/validation" method="POST" onsubmit="confirmUpdateValidasi(event)">
+                    @csrf
+                    @method("PUT")
+                    <div class="relative z-0 w-full mb-6 group">
+                        <label for="valid" class="sr-only">Validasi</label>
+                        <select id="valid" name="valid" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                            <option
+                                value="0"
+                                @if($user->useronopd->valid == 0)
+                                selected
+                                @endif
+                                >Belum Tervalidasi</option>
+                            <option
+                                value="1"
+                                @if($user->useronopd->valid == 1)
+                                selected
+                                @endif
+                                >Tervalidasi</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Validasi</button>
+                </form>
+
             </div>
 
             <div class="my-10">
@@ -207,6 +210,22 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Update Detail!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    e.target.submit();
+                }
+                })
+        }
+
+        function confirmUpdateValidasi(e) {
+            e.preventDefault();
+            Swal.fire({
+                text: "Apakah kamu yakin ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Update Validasi!'
                 }).then((result) => {
                 if (result.isConfirmed) {
                     e.target.submit();

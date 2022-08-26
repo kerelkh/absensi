@@ -112,59 +112,24 @@ class KepegawaianController extends Controller
 
     }
 
-    public function updateOpd(Request $request, String $email) {
+    public function updateValidation(Request $request, String $email) {
+        //check same
         $user = User::where('email', $email)->first();
 
-        //checkIfUser has OPD or NOT
-        $getUserOnOpd = UserOnOpd::where('user_id', $user->id)->first();
+        $userOnOpd = UserOnOpd::where('user_id', $user->id)->first();
 
-        //checkSame
-        if($getUserOnOpd){
-            if($getUserOnOpd->opd_id == $request->opd){
-                return back()->with('error', 'Gagal update, tidak ada perubahan');
-            }
-        }else{
-            if($getUserOnOpd == $request->opd){
-                return back()->with('error', 'Gagal update, tidak ada perubahan');
-            }
+        if($userOnOpd->valid == $request->valid){
+            return back()->with('error', 'Gagal update, tidak ada perubahan.');
         }
 
-        //if not same then create if not have opd or update if opd
-        if($getUserOnOpd){
-            //update
-           if($request->opd == NULL) {
-                $result = $getUserOnOpd->delete();
-
-                if($result) {
-                    return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update OPD Berhasil');
-                }
-
-                return back()->with('error', 'Gagal Update OPD');
-           }else{
-                $getUserOnOpd->opd_id = $request->opd;
-                $result = $getUserOnOpd->update();
-
-                if($result) {
-                    return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update OPD Berhasil');
-                }
-
-                return back()->with('error', 'Gagal Update OPD');
-           }
-        }
-
-        $result = UserOnOpd::create([
-            'valid' => 0,
-            'is_super' => 0,
-            'user_id' => $user->id,
-            'opd_id' => $request->opd
-        ]);
+        $userOnOpd->valid = $request->valid;
+        $result = $userOnOpd->update();
 
         if($result) {
-            return redirect('/admin/kepegawaian/' . $email . '/edit')->with('success', 'Update OPD Berhasil');
+            return redirect('/admin/kepegawaian/' . $user->email. '/edit')->with('success', 'Update Berhasil');
         }
 
-        return back()->with('error', 'Gagal Update OPD');
-
+        return back()->with('error', 'Update Gagal.');
     }
 
     public function updatePassword(Request $request, String $email) {

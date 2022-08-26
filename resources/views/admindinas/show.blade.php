@@ -20,36 +20,29 @@
     </nav>
 
     <div class="my-10">
-        <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Validasi User</h1>
+                <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">OPD User</h1>
+                <form action="{{ URL::current() }}" method="POST" onsubmit="confirmUpdateOPD(event)">
+                    @csrf
+                    @method('PUT')
+                    <div class="flex gap-5">
+                        <div>
+                            <p class="text-sm mb-5">OPD Sebelumnya</p>
+                            <p class="text-sm">Pindahkan Ke OPD</p>
+                        </div>
 
-        <form method="POST" onsubmit="confirmUpdate(event)">
-            @csrf
-            @method("PUT")
-            <div class="relative z-0 w-full mb-6 group">
-                <label for="valid" class="sr-only">Validasi</label>
-                <select id="valid" name="valid" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                    <option
-                        value="0"
-                        @if($user->useronopd->valid == 0)
-                        selected
-                        @endif
-                        >Belum Tervalidasi</option>
-                    <option
-                        value="1"
-                        @if($user->useronopd->valid == 1)
-                        selected
-                        @endif
-                        >Tervalidasi</option>
-                </select>
+                        <div>
+                            <p class="text-sm mb-5">: {{ ($user->useronopd) ? $user->useronopd->opd->opd_name : 'Tidak ada OPD' }}</p>
+                            <p class="text-sm">: {{ Auth()->user()->useronopd->opd->opd_name }}</p>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update OPD</button>
+                </form>
             </div>
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Validasi</button>
-        </form>
-
-    </div>
 </div>
 
 <script>
-    function confirmUpdate(e) {
+    function confirmUpdateOPD(e) {
             e.preventDefault();
             Swal.fire({
                 text: "Apakah kamu yakin ?",

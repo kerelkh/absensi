@@ -53,6 +53,7 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::put('/admin/kepegawaian/{email}/edit/opd', [KepegawaianController::class, 'updateOpd']);
     Route::put('/admin/kepegawaian/{email}/edit/password', [KepegawaianController::class, 'updatePassword']);
     Route::put('/admin/kepegawaian/{email}/edit/detail', [KepegawaianController::class, 'updateDetail']);
+    Route::put('/admin/kepegawaian/{email}/edit/validation', [KepegawaianController::class, 'updateValidation']);
 
     //admin dinas
     Route::get('/admin/kepegawaian/admins', [KepegawaianController::class, 'admins']);
@@ -65,9 +66,11 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
 
 Route::middleware(['auth', "check.role:3"])->group(function() {
     Route::get('/admin/dinas', [DinasController::class, 'index']);
+    Route::get('/admin/dinas/searchuser', [DinasController::class, 'searchUser']);
     Route::get('/admin/dinas/users', [DinasController::class, 'users']);
     Route::get('/admin/dinas/{email}/edit', [DinasController::class, 'showUser']);
-    Route::put('/admin/dinas/{email}/edit', [DinasController::class, 'updateValidation']);
+    Route::put('/admin/dinas/{email}/edit', [DinasController::class, 'updateOpd']);
+    Route::delete('/admin/dinas/users/{email}', [DinasController::class, 'deleteFromOpd']);
 });
 
 Route::fallback(function() {

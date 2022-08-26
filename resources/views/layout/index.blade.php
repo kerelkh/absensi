@@ -92,6 +92,26 @@
                             </a>
                         </li>
                     @endif
+                    @if(auth()->user()->role->id == 3)
+                        <li class="relative">
+                            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/admin/dinas" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                            <i class="fa-solid fa-chart-line w-3 h-3 mr-3" role="img"></i>
+                            <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="relative">
+                            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/admin/dinas/searchuser" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                            <i class="fa-solid fa-users w-3 h-3 mr-3" role="img"></i>
+                            <span>Users without opd</span>
+                            </a>
+                        </li>
+                        <li class="relative">
+                            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/admin/dinas/users" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                            <i class="fa-solid fa-users w-3 h-3 mr-3" role="img"></i>
+                            <span>Users on opd</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
                 <hr class="my-2">
                 <ul class="relative px-1">

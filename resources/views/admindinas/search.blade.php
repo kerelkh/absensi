@@ -2,10 +2,8 @@
 
 @section('content')
     <div class="p-5">
-        <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-10">Users <br><span class="text-base text-red-600 @If(Auth::user()->useronopd ?? false)text-green-600 @endif">OPD: {{ Auth::user()->useronopd->opd->opd_name ?? 'Belum Terhubung Ke OPD' }}</span></h1>
-
-        @if(Auth::user()->useronopd ?? false)
-        <div class="mb-2 w-fit">
+        <div class="flex justify-between items-center">
+            <h1 class="text-gray-800 pl-2 w-full border-l-4 border-[#5A88C6] text-2xl mb-5">Users</h1>
             <form class="flex items-center">
                 <label for="search" class="sr-only">Search</label>
                 <div class="relative">
@@ -14,10 +12,9 @@
                     </div>
                     <input type="search" id="search" name="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" value="{{ request('search') }}">
                 </div>
-                <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-[#5A88C6] transition rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
             </form>
         </div>
-
         <div class="mb-2 w-full grid grid-cols-4 gap-5">
             @forelse ($users as $user)
                 <div class="col-span-1 bg-white rounded-lg shadow hover:shadow-lg transition">
@@ -35,19 +32,12 @@
                     </div>
                     <hr class="my-2">
                     <div class="w-full flex divide-x-2 text-xs">
-                        <div class="grid place-items-center w-full">
-                            <p>OPD: {{ $user->useronopd?->opd->opd_name }}</p>
-                            <form action="{{ URL::current() . '/' . $user->email}}" method="POST" onsubmit="confirmDeleteOPD(event)">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="p-1 rounded text-white bg-red-700 hover:bg-red-800 text-xs">Delete OPD</button>
-                            </form>
-                        </div>
+                        <div class="grid place-items-center w-full">OPD: {{ $user->useronopd?->opd->opd_name }}</div>
                         <div class="grid place-items-center w-full">Ruang: - </div>
                     </div>
                     <hr class="mt-2">
                     <div class="transition hover:bg-blue-50 text-blue-400 font-semibold">
-                        <a href="/admin/dinas/{{ $user->email }}/user" class="inline-block w-full h-full p-2 text-center">Detail</a>
+                        <a href="/admin/dinas/{{ $user->email }}/edit" class="inline-block w-full h-full p-2 text-center">Ubah OPD</a>
                     </div>
                 </div>
             @empty
@@ -59,25 +49,5 @@
             {{ $users->withQueryString()->links('vendor.pagination.tailwind') }}
         </div>
 
-        @endif
-
     </div>
-
-    <script>
-        function confirmDeleteOPD(e) {
-            e.preventDefault();
-            Swal.fire({
-                text: "Apakah kamu yakin ?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus OPD!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    e.target.submit();
-                }
-                })
-        }
-    </script>
 @endsection
