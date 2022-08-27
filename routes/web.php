@@ -62,12 +62,21 @@ Route::middleware(['auth', "check.role:2"])->group(function() {
     Route::get('/admin/kepegawaian/admins/{email}/edit', [KepegawaianController::class, 'showEditAdmin']);
     Route::put('/admin/kepegawaian/admins/{email}/edit', [KepegawaianController::class, 'storeUpdateAdmin']);
     Route::put("/admin/kepegawaian/admins/{email}/edit/password", [KepegawaianController::class, 'updatePassword']);
+    Route::delete('/admin/kepegawaian/admins/{email}/edit', [KepegawaianController::class, 'deleteAdmin']);
+
+    //news
+    Route::get('/admin/kepegawaian/news', [KepegawaianController::class, 'news']);
+    Route::post('/admin/kepegawaian/news', [KepegawaianController::class, 'storeNews']);
+    Route::get('/admin/kepegawaian/news/{slug}/edit', [KepegawaianController::class, 'editNews']);
+    Route::put('/admin/kepegawaian/news/{slug}/edit', [KepegawaianController::class, 'updateNews']);
 });
 
 Route::middleware(['auth', "check.role:3"])->group(function() {
     Route::get('/admin/dinas', [DinasController::class, 'index']);
+    Route::put('/admin/dinas/{id}/valid', [DinasController::class, 'updateValidAbsen']);
     Route::get('/admin/dinas/searchuser', [DinasController::class, 'searchUser']);
     Route::get('/admin/dinas/users', [DinasController::class, 'users']);
+    Route::get('/admin/dinas/{email}/show', [DinasController::class, 'detailUser']);
     Route::get('/admin/dinas/{email}/edit', [DinasController::class, 'showUser']);
     Route::put('/admin/dinas/{email}/edit', [DinasController::class, 'updateOpd']);
     Route::delete('/admin/dinas/users/{email}', [DinasController::class, 'deleteFromOpd']);

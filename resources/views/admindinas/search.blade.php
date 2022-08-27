@@ -37,7 +37,7 @@
                     </div>
                     <hr class="mt-2">
                     <div class="transition hover:bg-blue-50 text-blue-400 font-semibold">
-                        <a href="/admin/dinas/{{ $user->email }}/edit" class="inline-block w-full h-full p-2 text-center">Ubah OPD</a>
+                        <a href="/admin/dinas/{{ $user->email }}/edit" class="inline-block w-full h-full p-2 text-center">Ambil Pegawai</a>
                     </div>
                 </div>
             @empty

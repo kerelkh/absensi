@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->boolean('valid')->default(0);
             $table->string('nip');
+            $table->string('name');
+            $table->string('opd_name');
             $table->datetime('absen_time')->nullable();
             $table->boolean('absen_jenis')->default(0);
             $table->string('absen_longitude');

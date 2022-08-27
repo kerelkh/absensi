@@ -74,6 +74,8 @@ class AbsenController extends Controller
 
         $absen = Absen::create([
             'nip' => $request->user()->nip,
+            'opd_name' => $request->user()->useronopd->opd->opd_name,
+            'name' => $request->user()->name,
             'absen_time' => now(),
             'absen_jenis' => 0,
             'absen_longitude' => $request->longitude,
@@ -160,6 +162,8 @@ class AbsenController extends Controller
 
         $absen = Absen::create([
             'nip' => $request->user()->nip,
+            'opd_name' => $request->user()->useronopd->opd->opd_name,
+            'name' => $request->user()->name,
             'absen_time' => now(),
             'absen_jenis' => 1,
             'absen_longitude' => $request->longitude,

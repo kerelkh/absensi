@@ -19,6 +19,14 @@
         </li>
     </nav>
 
+    <div class="my-10">
+        <form method="POST" onsubmit="confirmDelete(event)">
+            @csrf
+            @method("delete")
+            <button type="submit" class="p-2 rounded text-white bg-red-700 hover:bg-red-800 text-sm"><i class="fa-solid fa-trash"></i> Delete This Account?</button>
+        </form>
+    </div>
+
     <div class="grid grid-cols-2 gap-5">
         <div class="col-span-1 p-5 shadow-md bg-white rounded-lg">
             <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Informasi Admin</h1>
@@ -121,6 +129,22 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Update Password!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    e.target.submit();
+                }
+                })
+        }
+
+        function confirmDelete(e) {
+            e.preventDefault();
+            Swal.fire({
+                text: "Apakah kamu yakin ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Delete Account!'
                 }).then((result) => {
                 if (result.isConfirmed) {
                     e.target.submit();

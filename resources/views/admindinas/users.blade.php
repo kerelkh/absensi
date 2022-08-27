@@ -40,14 +40,14 @@
                             <form action="{{ URL::current() . '/' . $user->email}}" method="POST" onsubmit="confirmDeleteOPD(event)">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="p-1 rounded text-white bg-red-700 hover:bg-red-800 text-xs">Delete OPD</button>
+                                <button type="submit" class="p-1 rounded text-white bg-red-700 hover:bg-red-800 text-xs">Lepas Pegawai</button>
                             </form>
                         </div>
                         <div class="grid place-items-center w-full">Ruang: - </div>
                     </div>
                     <hr class="mt-2">
                     <div class="transition hover:bg-blue-50 text-blue-400 font-semibold">
-                        <a href="/admin/dinas/{{ $user->email }}/user" class="inline-block w-full h-full p-2 text-center">Detail</a>
+                        <a href="/admin/dinas/{{ $user->email }}/show" class="inline-block w-full h-full p-2 text-center">Detail</a>
                     </div>
                 </div>
             @empty

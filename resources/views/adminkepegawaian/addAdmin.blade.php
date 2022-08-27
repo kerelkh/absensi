@@ -1,7 +1,7 @@
 @extends('layout.index')
 
 @section('content')
-    <div class="p-5 bg-white rounded-lg shadow">
+    <div class="p-5">
 
     <nav class="flex mb-5 pb-2 border-b border-gray-400" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -59,6 +59,9 @@
                         <option value="{{ $opd->id }}">{{ $opd->opd_name }}</option>
                     @endforeach
                 </select>
+                @error('opd')
+                    <span class="text-red-600 text-xs">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah User</button>

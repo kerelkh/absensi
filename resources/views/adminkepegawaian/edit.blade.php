@@ -95,6 +95,7 @@
                 </form>
             </div>
 
+            @if($user->useronopd ?? false)
             <div class="my-10">
                 <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Validasi User</h1>
 
@@ -122,6 +123,7 @@
                 </form>
 
             </div>
+            @endif
 
             <div class="my-10">
                 <h1 class="text-gray-800 pl-2 w-full border-l-4 border-green-600 text-2xl mb-5">Ubah password</h1>

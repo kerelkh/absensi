@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use App\Models\User;
 use App\Models\Opd;
 use App\Models\UserOnOpd;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class KepegawaianController extends Controller
 {
@@ -24,8 +28,31 @@ class KepegawaianController extends Controller
     }
 
     public function formUser(Request $request) {
+        $pangkats = [
+            'Juru Muda / Ia',
+            'Juru Muda Tingkat I / Ib',
+            'Juru / Ic',
+            'Juru Tingkat I / Id',
+            'Pengatur Muda / IIa',
+            'Pengatur Muda Tingkat I / IIb',
+            'Pengatur / IIc',
+            'Pengatur Tingkat I / IId',
+            'Penata Muda / IIIa',
+            'Penata Muda Tingkat I/ IIIb',
+            'Penata / IIIc',
+            'Penata Tingkat I / IIId',
+            'Pembina / IVa',
+            'Pembina Tingkat I / IVb',
+            'Pembina Muda / IVc',
+            'Pembina Madya / IVd',
+            'Pembina Utama / IVe',
+
+
+        ];
+
         return view('adminkepegawaian.add', [
             'opds' => Opd::all(),
+            'pangkats' => $pangkats
         ]);
     }
 
@@ -206,6 +233,7 @@ class KepegawaianController extends Controller
             'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
             'nip' => ['required', 'size:18', 'unique:users,nip'],
             'password' => ['required', 'min:3', 'max:25'],
+            'opd' => ['required']
         ]);
 
         $user = User::create([
@@ -223,6 +251,7 @@ class KepegawaianController extends Controller
                     'is_super' => 1,
                     'user_id' => $user->id,
                     'opd_id' => $request->opd,
+                    'valid' => 1
                 ]);
             }
 
@@ -302,6 +331,15 @@ class KepegawaianController extends Controller
         return back()->with('error', 'Gagal update Admin Dinas.');
     }
 
+    public function deleteAdmin(Request $request, String $email) {
+        $admin = User::where('email', $email)->where('role_id', 3)->first();
+        if($admin) {
+            $result = $admin->delete();
+            return redirect('/admin/kepegawaian/admins')->with('success', 'Admin has been deleted.');
+        }
+
+        return back()->with('error', 'Failed delete admin.');
+    }
 
     public function storeAvatar($id, $file) {
         $filename = 'user' . $id . now()->format("YMdHis") . "avatar." . $file->extension();
@@ -316,4 +354,92 @@ class KepegawaianController extends Controller
         return 0;
     }
 
+    public function news(Request $request) {
+        if($request->input('search')){
+            $newses = News::where('title', 'LIKE', '%' . $request->search . '%')->orWhere('content', 'LIKE' , '%' . $request->search . '%')->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
+        }else{
+            $newses = News::orderBy('created_at', 'desc')->paginate(5)->withQueryString();
+        }
+        return view('adminkepegawaian.news', [
+            'newses' => $newses,
+        ]);
+    }
+
+    public function storeNews(Request $request) {
+        $validate = $request->validate([
+            'title' => ['required', 'unique:news,title'],
+            'content' => ['required'],
+            'image' => ['required', 'image']
+        ]);
+
+        $filename = $this->storeImage($request->file('image'));
+
+        $news = News::create([
+            'slug' => Str::slug($validate['title']),
+            'title' => $validate['title'],
+            'content' => $validate['content'],
+            'image' => $filename,
+        ]);
+
+        if($news) {
+            return redirect('/admin/kepegawaian/news')->with('success', 'Berita berhasil di Simpan.');
+        }
+
+        return back()->with('error', 'Berita gagal di simpan.');
+    }
+
+    public function storeImage($file) {
+        $filename = 'image' . now()->format("YMdHis") . "news." . $file->extension();
+        $path = $file->storeAs('public/news', $filename);
+        $filepath = '';
+        if($path){
+            $filepath = "news/" . $filename;
+
+            return $filepath;
+        }
+
+        return 0;
+    }
+
+    public function editNews(Request $request, $slug) {
+        $news = News::where("slug", $slug)->first();
+
+        return view('adminkepegawaian.editNews', [
+            'news' => $news,
+        ]);
+    }
+
+    public function updateNews(Request $request, $slug) {
+        $news = News::where('slug', $slug)->first();
+        if(!$news) { return back()->with('error', 'Berita tidak ada.'); }
+        $validate = $request->validate([
+            'title' => ['required', Rule::unique('news')->ignore($news->id)],
+            'content' => ['required']
+        ]);
+
+        //checksame
+        if($request->title == $news->title && $request->content == $news->content && $request->file('image') == NULL){
+            return back()->with('error', 'No change in data.');
+        }
+
+        $news->slug = Str::slug($validate['title']);
+        $news->title = $validate['title'];
+        $news->content = $validate['content'];
+
+        if($request->hasFile('image')){
+            //delete image
+            $result = Storage::delete('/public/' .$news->image);
+            if($result) {
+                $news->image = $this->storeImage($request->file('image'));
+            }
+        }
+
+        $result = $news->save();
+
+        if($result) {
+            return redirect('/admin/kepegawaian/news/' . $news->slug . '/edit')->with('success', 'Update Success');
+        }
+
+        return back()->with('error', 'Berita gagal update.');
+    }
 }

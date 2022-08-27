@@ -91,6 +91,12 @@
                             <span>Admins</span>
                             </a>
                         </li>
+                        <li class="relative">
+                            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/admin/kepegawaian/news" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                            <i class="fa-solid fa-newspaper w-3 h-3 mr-3" role="img"></i>
+                            <span>News</span>
+                            </a>
+                        </li>
                     @endif
                     @if(auth()->user()->role->id == 3)
                         <li class="relative">
