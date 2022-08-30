@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AbsenController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,5 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user/absenmonth', [UserController::class, 'getAbsenThisMonth']);
     Route::post('/user/changepassword', [UserController::class, 'setPassword']);
     Route::post('/user/changeavatar', [UserController::class, 'setAvatar']);
+    Route::get('/user/news', [NewsController::class,'getNews']);
 });

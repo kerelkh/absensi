@@ -23,7 +23,7 @@ class KepegawaianController extends Controller
 
     public function users(Request $request) {
         return view('adminkepegawaian.users', [
-            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->orderBy('created_at', 'desc')->paginate(9),
+            'users' => User::where('role_id', 6)->filter(['search' => $request->query('search')  ?? false])->orderBy('created_at', 'desc')->paginate(12),
         ]);
     }
 
@@ -230,7 +230,7 @@ class KepegawaianController extends Controller
     public function storeNewAdmin(Request $request) {
         $validate = $request->validate([
             'name' => ['required', 'min:3' ,'max:50'],
-            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+            'email' => ['required', 'unique:users,email'],
             'nip' => ['required', 'size:18', 'unique:users,nip'],
             'password' => ['required', 'min:3', 'max:25'],
             'opd' => ['required']
