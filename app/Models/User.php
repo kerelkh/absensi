@@ -18,11 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'nip',
-        'email',
+        'username',
         'password',
         'role_id',
+        'validation',
+        'created_by',
     ];
 
     /**
@@ -77,7 +77,7 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
-    public function useronopd(){
+    public function opd(){
         return $this->hasOne(UserOnOpd::class);
     }
 

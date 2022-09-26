@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->string('nik')->unique();
-            $table->string('pangkat');
-            $table->string('jabatan');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('nik')->nullable()->unique();
+            $table->string('nip')->nullable()->unique();
+            $table->text('position')->nullable();
             $table->timestamps();
         });
     }

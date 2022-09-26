@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserOnOpd extends Model
+class Permission extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
-
-    public function opd() {
-        return $this->belongsTo(Opd::class);
+    public function role() {
+        return $this->belongsTo(Role::class);
     }
 }

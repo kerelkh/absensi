@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_on_opds', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->integer('valid');
-            $table->integer('is_super');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('opd_id')->references('id')->on('opds')->onDelete('cascade');
+            $table->string('name');
+            $table->text('url');
+            $table->text('icon')->nullable();
+            $table->integer('menu_group')->default(0);
+            $table->boolean('flag_menu')->default(0);
+            $table->boolean('flag')->default(0);
+            $table->integer('sort')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_on_opds');
+        Schema::dropIfExists('menus');
     }
 };

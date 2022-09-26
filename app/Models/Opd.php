@@ -15,4 +15,5 @@ class Opd extends Model
             $query->where('opd_name', 'LIKE', '%' . $search . '%');
         });
     }
+
 }
