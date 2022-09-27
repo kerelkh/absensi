@@ -8,6 +8,7 @@ use App\Http\Controllers\DinasController;
 use App\Http\Controllers\SuperController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KepegawaianController;
+use App\Http\Controllers\MasterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +35,15 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['check.role:dashboard']);
 
+    Route::get('/masters', [MasterController::class, 'index'])->name('masters')->middleware(['check.role:masters']);
+    Route::post('/masters/opd', [MasterController::class, 'storeOpd'])->name('store-opd')->middleware(['check.role:store-opd']);
+    Route::get('/masters/get-opds', [MasterController::class, 'getOpds'])->name('get-opds')->middleware(['check.role:get-opds']);
+
     Route::get('/users', [UserController::class, 'index'])->name('users')->middleware(['check.role:users']);
     Route::get('/users/get-user/{username}', [UserController::class, 'getUser'])->name('get-user')->middleware(['check.role:get-user']);
     Route::get('/users/get-users', [UserController::class, 'getUsers'])->name('get-users')->middleware(['check.role:get-users']);
     Route::post('/users/create-user', [UserController::class, 'store'])->name('create-user');
-    Route::put('/users/change-detail-user', [UserController::class, 'updateDetail'])->name('update-detail-user');
+    Route::post('/users/change-detail-user', [UserController::class, 'updateDetail'])->name('update-detail-user');
     Route::post('/users/change-password-all-user', [UserController::class, 'changePasswordAllUser'])->name('change-password-all-user');
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware(['check.role:admin']);

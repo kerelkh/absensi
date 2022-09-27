@@ -21,6 +21,7 @@ class User extends Authenticatable
         'username',
         'password',
         'role_id',
+        'gender',
         'validation',
         'created_by',
     ];
@@ -78,11 +79,15 @@ class User extends Authenticatable
     }
 
     public function opd(){
-        return $this->hasOne(UserOnOpd::class);
+        return $this->hasOne(Opd::class);
     }
 
     public function userDetail(){
         return $this->hasOne(UserDetail::class);
+    }
+
+    public function shift(){
+        return $this->hasOne(Shift::class, 'id', 'shift_id');
     }
 
 }

@@ -22,6 +22,7 @@ return new class extends Migration
             // $table->text('avatar')->nullable();
             $table->string('username')->unique();
             $table->text('password');
+            $table->enum('gender', ['male', 'female'])->default('male');
             $table->timestamp('last_seen')->nullable();
             $table->integer('validation')->default(0);
             $table->string('created_by')->default('');

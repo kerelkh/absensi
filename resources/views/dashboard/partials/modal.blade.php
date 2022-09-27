@@ -55,6 +55,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="grid grid-cols-2 gap-5">
+                        <div class="col-span-1">
+                            <label for="gender" class="sr-only">gender</label>
+                            <select id="gender" name="gender" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer" required>
+                                <option value="" selected>-- select gender --</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <div id="message-gender"></div>
+                        </div>
+                    </div>
             </div>
             <!-- Modal footer -->
             <div class="flex justify-end items-center p-6 space-x-2 rounded-b border-t border-gray-200">
@@ -79,12 +90,14 @@
             $('#message-username').html('');
             $('#message-password').html('');
             $('#message-role').html('');
+            $('#message-gender').html('');
             $.post({
                 url: $(this).attr('action'),
                 data: {
                     'username': $('#username').val(),
                     'password': $('#password').val(),
                     'role': $('#role').val(),
+                    'gender': $('#gender').val(),
                     'password_confirmation': $('#password_confirmation').val()
                 },
                 processing: true,

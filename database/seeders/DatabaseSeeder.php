@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSeeder::class);
         $this->call(UsersSeed::class);
         $this->call(RanksSeeder::class);
+        $this->call(ShiftSeeder::class);
 
         //OPD SEED
         // Opd::create([

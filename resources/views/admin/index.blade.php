@@ -25,7 +25,7 @@
 </div>
 
 <div class="mt-2 bg-white rounded-lg py-4 px-5 shadow">
-    <table id="myTable" class="w-full text-sm display">
+    <table id="myTable" class="w-full text-sm display" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -86,7 +86,12 @@
             $('#last-seen-title').html(data.user.last_seen);
             $('#username-id').val(data.user.username);
             $('#username-update-id').val(data.user.username);
-
+            if(data.user.opd != undefined) {
+                $('#opd-title').val(data.user.opd.opd_name);
+            }
+            if(data.user.shift != undefined) {
+                $('#shift-title').val(data.user.shift.name);
+            }
             if(data.user.role.role_name === 'user') {
                 $('#detail-panel-user').fadeIn(100);
                 $('#detail-panel-user #detail_name').val(data.user.userdetail.name || '');
@@ -95,6 +100,12 @@
                 $('#detail-panel-user #detail_nip').val(data.user.userdetail.nip || '');
                 $('#detail-panel-user #detail_rank').val(data.user.userdetail.rank_id || '').change();
                 $('#detail-panel-user #detail_position').val(data.user.userdetail.position || '');
+                let photo = data.user.userdetail.photo || '';
+                if(photo != ''){
+                    $('#detail-panel-user #photo').attr('src', base_url + '/storage/' + data.user.userdetail.photo);
+                }else{
+                    $('#detail-panel-user #photo').attr('src', base_url + '/images/avatars/avatar-' + data.user.gender + '.png');
+                }
             }
         }).fail(function(data) {
             Swal.fire({

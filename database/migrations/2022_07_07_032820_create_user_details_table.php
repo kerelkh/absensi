@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
+            $table->text('photo')->nullable();
             $table->string('nik')->nullable()->unique();
             $table->string('nip')->nullable()->unique();
             $table->text('position')->nullable();

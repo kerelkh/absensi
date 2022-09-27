@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class StoreOpdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required', 'min:4' , 'max:50', 'regex:/^(?=.{4,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/', 'unique:users,username'],
-            'password' => ['required', 'min:4', 'max:25', 'confirmed'],
-            'role' => ['required', 'exists:roles,id'],
-            'gender' => ['required', 'in:male,female'],
-            'password_confirmation' => ['required']
+            'opd_name' => ['required', 'unique:opds,opd_name'],
+            'opd_address' => ['required'],
+            'opd_longitude' => ['required', 'Regex:/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/'],
+            'opd_latitude' => ['required', 'Regex:/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/'],
+            'opd_distance' => ['required', 'numeric']
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDetailUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Services\FileUploadService;
 use App\Services\MenusService;
 use App\Services\PermissionService;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -44,7 +46,7 @@ class UserController extends Controller
             return response()->json(['status' => 'forbidden', 'message' => "You don't have permission"], 403);
         }
 
-        $user = User::with(['role','userdetail'])->where('username', $username)->first();
+        $user = User::with(['role','userdetail','shift'])->where('username', $username)->first();
 
         if($user){
             return response()->json(['user' => $user]);
@@ -123,6 +125,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role,
+                'gender' => $request->gender,
                 'validation' => ($request->role != 6) ? '1' : '0',
                 'created_by' => Auth::user()->username,
             ]);
@@ -164,19 +167,29 @@ class UserController extends Controller
             'nip' => ['size:18', Rule::unique('user_details', 'nip')->ignore($user->id, 'user_id')],
             'email' => [Rule::unique('user_details', 'email')->ignore($user->id, 'user_id')],
             'rank' => ['integer'],
-            'position' => ['min:3', 'max:255']
+            'position' => ['min:3', 'max:255'],
+            'photo' => ['image'],
         ]);
 
         DB::beginTransaction();
         try{
             $userDetail = UserDetail::where('user_id', $user->id)->first();
+            if($request->hasFile('photo')){
+                if($userDetail->photo != null) {
+                    Storage::delete('public/' . $userDetail->photo);
+                }
+
+                $photoFile = FileUploadService::storeAvatar($user->id, $request->file('photo'));
+            }
+
             $userDetail->update([
                 'name' => $validated['name'] ?? '',
                 'nik' => $validated['nik'] ?? '',
                 'nip' => $validated['nip'] ?? '',
                 'email' => $validated['email'] ?? '',
                 'rank_id' => $validated['rank'] ?? '',
-                'position' => $validated['position'] ?? ''
+                'position' => $validated['position'] ?? '',
+                'photo' => $photoFile ?? $userDetail->photo,
             ]);
 
             DB::commit();

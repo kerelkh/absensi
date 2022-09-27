@@ -25,6 +25,15 @@ class MenusSeeder extends Seeder
         ]);
 
         Menu::create([
+            'name' => 'masters',
+            'url' => 'masters',
+            'icon' => '<i class="fa-solid fa-lock w-3 h-3 mr-3" role="img"></i>',
+            'menu_group' => 1,
+            'flag' => 1,
+            'flag_menu' => 1,
+        ]);
+
+        Menu::create([
             'name' => 'report',
             'url' => 'report',
             'icon' => '<i class="fa-solid fa-chart-line w-3 h-3 mr-3" role="img"></i>',

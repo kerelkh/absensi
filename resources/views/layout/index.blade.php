@@ -132,7 +132,7 @@
                     <div class="flex justify-center items-center gap-5">
                         <p>{{ auth()->user()->username }}</p>
                         <div id="toggle-nav-hidden" data-toggle='#nav-hidden' class="relative w-8 h-8 rounded-full bg-gray-200 hover:bg-blue-400 hover:text-gray-700 transition flex justify-center items-center cursor-pointer">
-                            <i class="fa-solid fa-user"></i>
+                            <img src="{{ asset('images/avatars/avatar-'. auth()->user()->gender .'.png') }}" alt="avatar auth" class="w-full h-full object-cover">
                             <div id="nav-hidden" class="shadow-lg absolute z-20 -bottom-14 p-2 bg-white rounded right-0 ">
                                 <form action="{{ route('logout') }}" method="POST">
                                 @csrf

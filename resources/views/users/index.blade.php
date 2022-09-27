@@ -23,7 +23,7 @@
     </div>
 </div>
 <div class="mt-2 bg-white rounded-lg py-4 px-5 shadow">
-    <table id="myTable" class="w-full text-sm display">
+    <table id="myTable" class="w-full text-sm display" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -76,6 +76,11 @@
             $('#role-title').html(data.user.role.role_name);
             $('#last-seen-title').html(data.user.last_seen);
             $('#username-id').val(data.user.username);
+            if(data.user.gender == 'male'){
+                $('#avatar').attr('src', "{{ asset('images/avatars/avatar-male.png') }}");
+            }else{
+                $('#avatar').attr('src', "{{ asset('images/avatars/avatar-female.png') }}");
+            }
         }).fail(function(data) {
             Swal.fire({
                 icon: 'error',

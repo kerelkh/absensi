@@ -79,12 +79,15 @@
             $('#message-username').html('');
             $('#message-password').html('');
             $('#message-role').html('');
+            $('#message-gender').html('');
+
             $.post({
                 url: $(this).attr('action'),
                 data: {
                     'username': $('#username').val(),
                     'password': $('#password').val(),
                     'role': $('#role').val(),
+                    'gender': $('#gender').val(),
                     'password_confirmation': $('#password_confirmation').val()
                 },
                 processing: true,

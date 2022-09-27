@@ -3,9 +3,25 @@
         <div class="col-span-1">Last Activity:</div>
         <div class='col-span-1'>
             <p class="text-gray-700 font-medium text-lg mb-5">Information</p>
-            <form action="{{ route('update-detail-user') }}" method="POST" id="form-update-detail-user" >
+            <form action="{{ route('update-detail-user') }}" method="POST" id="form-update-detail-user" enctype="multipart/form-data" >
                 @csrf
+                @method('PUT')
                 <input type="hidden" name="username-update-id" id="username-update-id">
+                <div class="flex gap-5 items-center mb-5">
+                    <div class="shrink-0">
+                        <img class="h-36 w-36 object-cover rounded-full" id="photo" src="{{ asset('images/avatars/avatar-male.png') }}" />
+                      </div>
+                      <label class="block">
+                        <span class="sr-only">Choose profile photo</span>
+                        <input type="file" id="detail_photo" class="block w-full text-sm text-slate-500
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-full file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-violet-50 file:text-violet-700
+                          hover:file:bg-violet-100
+                        "/>
+                      </label>
+                </div>
                 <div class="grid grid-cols-2 gap-5">
                     <div class="col-span-1">
                         <div class="relative z-0 mb-6 w-full group">
@@ -35,7 +51,7 @@
                             <select id="detail_rank" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer" required>
                                 <option value="">-- Rank --</option>
                                 @foreach($datas['ranks'] as $rank)
-                                <option value="{{ $rank->id }}" @if($rank->id == )>{{ $rank->rank_name }}</option>
+                                <option value="{{ $rank->id }}">{{ $rank->rank_name }}</option>
                                 @endforeach
                             </select>
                             <div id="message-rank"></div>
@@ -73,19 +89,24 @@
                 $('#message-email').html('');
                 $('#message-position').html('');
 
+                let formData = new FormData();
+                formData.append('user_id', $('#username-update-id').val());
+                formData.append('name', $('#detail_name').val());
+                formData.append('nik', $('#detail_nik').val());
+                formData.append('nip', $('#detail_nip').val());
+                formData.append('rank', $('#detail_rank').val());
+                formData.append('email', $('#detail_email').val());
+                formData.append('position', $('#detail_position').val());
+                if($('#detail_photo').val()){
+                    formData.append('photo', $("#detail_photo")[0].files[0]);
+                }
+
                 $.ajax({
+                    type: 'POST',
                     url: $(this).attr('action'),
-                    type: 'put',
-                    data: {
-                        'user_id': $('#username-update-id').val(),
-                        'name': $('#detail_name').val(),
-                        'nik': $('#detail_nik').val(),
-                        'nip': $('#detail_nip').val(),
-                        'rank': $('#detail_rank').val(),
-                        'email': $('#detail_email').val(),
-                        'position': $('#detail_position').val(),
-                    },
-                    processing: true,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                 }).done(function(data) {
                     Swal.fire({
                         icon: 'success',
